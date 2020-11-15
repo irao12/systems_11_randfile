@@ -11,7 +11,7 @@ int random_int(int input){
 }
 
 int main(){
-	int  input = open("/dev/random", O_RDONLY);
+	int  input = open("/dev/urandom", O_RDONLY);
 	int write_to = open("data", O_CREAT | O_RDWR);
 	int rand_ints[10];
 	int i;
@@ -25,9 +25,14 @@ int main(){
 
 	printf("\nWriting numbers to file...\n");
 	int bytes = write(write_to, &rand_ints, sizeof(rand_ints));
-	
+
 	printf("\nReading numbers from file...\n");
 	int rand_ints_2[10];
+	read(write_to, &rand_ints_2, sizeof(rand_ints_2));
 
+	printf("\nVerification that written values were the same:\n");
+	for (i = 0; i < 10; i++){
+		printf("\tramdom %d: %d\n", i, rand_ints_2[i]);
+	}
 	return 0;
 }
